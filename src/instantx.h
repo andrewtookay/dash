@@ -167,7 +167,7 @@ public:
 class CTxLockRequest
 {
 private:
-    static const CAmount MIN_FEE            = 0.0001 * COIN;
+    static const CAmount MIN_FEE            = 0.001 * COIN;
     /// If transaction has less or equal inputs than MAX_INPUTS_FOR_AUTO_IX,
     /// it will be automatically locked
     static const int MAX_INPUTS_FOR_AUTO_IX = 4;

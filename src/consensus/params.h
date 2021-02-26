@@ -105,10 +105,15 @@ struct LLMQParams {
 struct Params {
     uint256 hashGenesisBlock;
     uint256 hashDevnetGenesisBlock;
+    int nHardForkOne; // block
+    int nHardForkTwo; // block
+    int nHardForkThree; //block
+    int nHardForkFour; //block
+    int nHardForkFive; //block
+    int nHardForkSix; // block
+    int nTempDevFundIncreaseEnd; //block height for temporal Dev fund increase ending
     int nSubsidyHalvingInterval;
     int nMasternodePaymentsStartBlock;
-    int nMasternodePaymentsIncreaseBlock;
-    int nMasternodePaymentsIncreasePeriod; // in blocks
     int nInstantSendConfirmationsRequired; // in blocks
     int nInstantSendKeepLock; // in blocks
     int nBudgetPaymentsStartBlock;
@@ -119,16 +124,22 @@ struct Params {
     int nSuperblockCycle; // in blocks
     int nGovernanceMinQuorum; // Min absolute vote count to trigger an action
     int nGovernanceFilterElements;
+    int nOldMasternodeCollateral;
+    int nNewMasternodeCollateral; // used for easier switch between collaterals with future hard forks
     int nMasternodeMinimumConfirmations;
     /** Block height and hash at which BIP34 becomes active */
-    int BIP34Height;
-    uint256 BIP34Hash;
+    //int BIP34Height;
+    //uint256 BIP34Hash;
     /** Block height at which BIP65 becomes active */
     int BIP65Height;
     /** Block height at which BIP66 becomes active */
     int BIP66Height;
     /** Block height at which DIP0001 becomes active */
     int DIP0001Height;
+
+    int nIntPhaseTotalBlocks;
+    int nBlocksPerYear; // expected blocks per year
+
     /**
      * Minimum blocks including miner confirmation of the total of nMinerConfirmationWindow blocks in a retargeting period,
      * (nPowTargetTimespan / nPowTargetSpacing) which is also used for BIP9 deployments.
@@ -143,13 +154,28 @@ struct Params {
     uint256 powLimit;
     bool fPowAllowMinDifficultyBlocks;
     bool fPowNoRetargeting;
-    int64_t nPowTargetSpacing;
     int64_t nPowTargetTimespan;
-    int nPowKGWHeight;
+    int64_t nPowTargetSpacing;
+    int64_t nDifficultyAdjustmentInterval;
+    int64_t nOldPowTargetSpacing;
+    int64_t nNewPowTargetSpacing;
     int nPowDGWHeight;
-    int64_t DifficultyAdjustmentInterval() const { return nPowTargetTimespan / nPowTargetSpacing; }
     uint256 nMinimumChainWork;
     uint256 defaultAssumeValid;
+
+    int64_t GetCurrentPowTargetSpacing(const int& nHeight) const {
+        if (nHeight > nHardForkSix)
+            return nNewPowTargetSpacing;
+        else
+            return nOldPowTargetSpacing;
+    }
+
+    int GetCurrentMasternodeCollateral(const int& nHeight) const {
+        if (nHeight > nHardForkSix)
+            return nNewMasternodeCollateral;
+        else
+            return nOldMasternodeCollateral;
+    }
 
     /** these parameters are only used on devnet and can be configured from the outside */
     int nMinimumDifficultyBlocks{0};

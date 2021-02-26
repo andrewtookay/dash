@@ -19,6 +19,8 @@ BOOST_AUTO_TEST_CASE(block_subsidy_test)
     int32_t nPrevHeight;
     CAmount nSubsidy;
 
+    // TODO_BCRS implement PoW reward tests
+    /*
     // details for block 4249 (subsidy returned will be for block 4250)
     nPrevBits = 0x1c4a47c4;
     nPrevHeight = 4249;
@@ -68,6 +70,7 @@ BOOST_AUTO_TEST_CASE(block_subsidy_test)
     nPrevHeight = 210240;
     nSubsidy = GetBlockSubsidy(nPrevBits, nPrevHeight, consensusParams, false);
     BOOST_CHECK_EQUAL(nSubsidy, 464285715ULL);
+    */
 }
 
 BOOST_AUTO_TEST_SUITE_END()

@@ -382,7 +382,7 @@ bool CMasternodePayments::GetMasternodeTxOuts(int nBlockHeight, CAmount blockRew
         }
         // fill payee with locally calculated winner and hope for the best
         CScript payee = GetScriptForDestination(mnInfo.keyIDCollateralAddress);
-        CAmount masternodePayment = GetMasternodePayment(nBlockHeight, blockReward);
+        CAmount masternodePayment = GetMasternodePayment(nBlockHeight);
         voutMasternodePaymentsRet.emplace_back(masternodePayment, payee);
     }
 
@@ -590,7 +590,7 @@ bool CMasternodePayments::GetBlockTxOuts(int nBlockHeight, CAmount blockReward, 
 {
     voutMasternodePaymentsRet.clear();
 
-    CAmount masternodeReward = GetMasternodePayment(nBlockHeight, blockReward);
+    CAmount masternodeReward = GetMasternodePayment(nBlockHeight);
 
     if (deterministicMNManager->IsDeterministicMNsSporkActive(nBlockHeight)) {
         uint256 blockHash;
@@ -759,7 +759,7 @@ bool CMasternodeBlockPayees::IsTransactionValid(const CTransaction& txNew) const
     int nMaxSignatures = 0;
     std::string strPayeesPossible = "";
 
-    CAmount nMasternodePayment = GetMasternodePayment(nBlockHeight, txNew.GetValueOut());
+    CAmount nMasternodePayment = GetMasternodePayment(nBlockHeight);
 
     //require at least MNPAYMENTS_SIGNATURES_REQUIRED signatures
 
